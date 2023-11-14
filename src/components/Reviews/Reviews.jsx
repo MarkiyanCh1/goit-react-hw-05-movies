@@ -1,6 +1,6 @@
 import ReviewsList from 'components/ReviewsList/ReviewsList';
 import React, { useEffect, useState } from 'react';
-import { RotatingLines } from 'react-loader-spinner';
+import { Loader } from 'components/Loader/Loader';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { getReviews } from 'services/Api';
@@ -30,13 +30,7 @@ const Reviews = () => {
   return (
     <div>
       {loading && (
-        <RotatingLines
-          strokeColor="grey"
-          strokeWidth="5"
-          animationDuration="0.75"
-          width="96"
-          visible={true}
-        />
+        <Loader />
       )}
       {reviews.length > 0 ? (
         <ReviewsList reviews={reviews} />

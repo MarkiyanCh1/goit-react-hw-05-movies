@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const BtnBack = styled(Link)`
@@ -22,12 +22,42 @@ export const BtnBack = styled(Link)`
   }
 `;
 
+
+export const NavToggle = styled.div`
+
+`;
+
 export const Box = styled.div`
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-flow: wrap;
   width: 100%;
-  height: 100vh;
-  background-color: #adb2d3;
-  color: #1a102b;
+  flex-direction: column;
+`;
+
+export const AddInfo = styled.div`
+  margin-bottom: 50px;
+`;
+
+export const Nav = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+  cursor: pointer;
+  `;
+
+
+export const Title = styled.p`
+font-size: 45px;
+text-align: center;
+margin-top: 20px;
+`;
+
+export const LinkLayout = styled(NavLink)`
+  font-size: 30px;
+  font-weight: 600;
+  color: black;
 `;
 

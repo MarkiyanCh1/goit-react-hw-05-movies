@@ -1,13 +1,14 @@
 import React from 'react';
+import { CastListEl, CastMember } from './CastList.styles';
 const defaultImg =
   'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
 const CastList = ({ cast }) => {
   return (
-    <ul>
+    <CastListEl>
       {cast &&
         cast.map(({ name, profile_path, character, id }) => (
-          <li key={id}>
+          <CastMember key={id}>
             <img
               src={
                 profile_path
@@ -18,10 +19,10 @@ const CastList = ({ cast }) => {
               alt="poster"
             />
             <h3>{name}</h3>
-            <p>Character: {character}</p>
-          </li>
+            <p>{character}</p>
+          </CastMember>
         ))}
-    </ul>
+    </CastListEl>
   );
 };
 

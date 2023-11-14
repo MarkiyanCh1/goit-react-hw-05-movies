@@ -9,7 +9,7 @@ export const getMovies = async () => {
   return data;
 };
 export const getMovieById = async movieId => {
-  const { data } = await axios.get(`${BASE_URL}/movie/${movieId}`);
+  const { data } = await axios.get(`${BASE_URL}/movie/${movieId}?append_to_response=videos,credits`);
   return data;
 };
 
@@ -17,6 +17,12 @@ export const getCasts = async movieId => {
   const { data } = await axios.get(`${BASE_URL}/movie/${movieId}/credits`);
   return data;
 };
+
+export const getImages = async movieId => {
+  const { data } = await axios.get(`${BASE_URL}/movie/${movieId}/images`);
+  return data;
+};
+
 export const getReviews = async movieId => {
   const { data } = await axios.get(`${BASE_URL}/movie/${movieId}/reviews`);
   return data;

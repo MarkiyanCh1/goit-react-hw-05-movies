@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { HeaderEl, Nav, LinkLayout } from './Header.styles';
 const Header = () => {
   return (

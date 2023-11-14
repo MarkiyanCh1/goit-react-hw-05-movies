@@ -1,5 +1,27 @@
-import React from 'react';
-import { BoxAbout } from './MovieCard.styles';
+import React, { useState } from 'react';
+import ModalWindow from 'components/Modal/Modal';
+import { Rating } from '@smastrom/react-rating';
+import '@smastrom/react-rating/style.css';
+import {
+  BoxAbout,
+  AboutImg,
+  Img,
+  AboutText,
+  Title,
+  Tagline,
+  Stats,
+  RatingEl,
+  Data,
+  Genres,
+  Cast,
+  CastName,
+  CastChar,
+  CastMember,
+  OverviewText,
+  LinkEl,
+  ButtonEl,
+  ButtonGroup
+} from './MovieCard.styles';
 const defaultImg =
   'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
@@ -8,65 +30,141 @@ const MovieCard = ({ movie }) => {
     title,
     original_title,
     release_date,
+    tagline,
     poster_path,
     overview,
     genres,
-    popularity,
+    runtime,
     vote_average,
+    credits,
+    homepage,
+    imdb_id,
+    videos
   } = movie;
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalIsOpen(prevState => !prevState);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+
+  console.log('videos - ', movie.videos);
 
   return (
     <BoxAbout>
-      <div>
-        <img
+      <AboutImg>
+        <Img
           src={
             poster_path
               ? `https://image.tmdb.org/t/p/w500/${poster_path}`
               : defaultImg
           }
-          width={250}
+          width={500}
           alt="poster"
         />
-      </div>
-      <div>
+      </AboutImg>
+      <AboutText>
         {title ? (
-          <h2>
+          <Title>
             {title || original_title} ({String(release_date).substring(0, 4)})
-          </h2>
+          </Title>
         ) : (
           'Unfortunately this movie was not found! Please return to Home page!'
         )}
-        {vote_average && popularity ? (
-          <div>
-            <p>User Score {Math.floor(Number(vote_average) * 10)}%</p>
-            <p>Popularity: {popularity}</p>
-          </div>
+        {tagline ? <Tagline>{tagline}</Tagline> : ' '}
+        {vote_average && runtime ? (
+          <Stats>
+            <RatingEl>
+              <Rating
+                style={{ maxWidth: 180 }}
+                value={vote_average / 2}
+                readOnly
+              />
+              <Data>{(vote_average / 2).toFixed(1)} / 5</Data>
+            </RatingEl>
+            <Data>{runtime}min</Data>
+          </Stats>
         ) : (
           ' '
         )}
-        {overview && overview.length > 0 ? (
-          <>
-            <h3>Overview</h3>
-            <p>{overview}</p>
-          </>
-        ) : (
-          'Unfortunately, no description was found for this film.'
-        )}
         {genres && genres.length > 0 ? (
           <>
-            <h3>Genres</h3>
-            <ul>
+            <Genres>
               {genres.map(item => (
                 <li key={item.id}>
-                  <p>{item.name}</p>
+                  <Data>{item.name}</Data>
                 </li>
               ))}
-            </ul>
+            </Genres>
           </>
         ) : (
           'Not found genres'
         )}
-      </div>
+        <Title>Overview</Title>
+        {overview && overview.length > 0 ? (
+          <>
+            <OverviewText>{overview}</OverviewText>
+          </>
+        ) : (
+          'Unfortunately, no description was found for this film.'
+        )}
+        <Title>Top Cast</Title>
+        {credits && credits.cast.length > 0 ? (
+          <>
+            <Cast>
+              {credits.cast
+                .map(member => (
+                  <CastMember key={member.id}>
+                    <img
+                      src={
+                        member.profile_path
+                          ? `https://image.tmdb.org/t/p/w500/${member.profile_path}`
+                          : defaultImg
+                      }
+                      width={120}
+                      alt="poster"
+                    />
+                    <CastName>{member.name}</CastName>
+                    <CastChar>{member.character}</CastChar>
+                  </CastMember>
+                ))
+                .slice(0, 6)}
+            </Cast>
+          </>
+        ) : (
+          'Not found actors'
+        )}
+        <ButtonGroup>
+          <LinkEl target="_blank" rel="noopener noreferrer" to={homepage}>
+            Website
+          </LinkEl>
+          <LinkEl
+            target="_blank"
+            rel="noopener noreferrer"
+            to={`https://www.imdb.com/title/${imdb_id}`}
+          >
+            Imdb
+          </LinkEl>
+
+          <ButtonEl onClick={toggleModal} href="#">
+            Trailer
+          </ButtonEl>
+
+          {videos &&
+            <ModalWindow
+            videos={videos.results}
+            modalIsOpen={modalIsOpen}
+            closeModal={closeModal}
+          />
+          }
+
+        </ButtonGroup>
+      </AboutText>
     </BoxAbout>
   );
 };

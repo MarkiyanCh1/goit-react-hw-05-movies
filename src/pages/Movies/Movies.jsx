@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { getMoviesbyQuery } from 'services/Api';
 import { Loader, Error } from 'components/Loader/Loader';
+import { SearchBox, SearchForm, SearchInput, SearchButton, Placeholder } from './Movies.styles';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,21 +47,18 @@ const Movies = () => {
   };
 
   return (
-    <>
-      <form className="form" onSubmit={handleOnSubmit}>
-        <label>
-          <p>Search movie by name</p>
-          <input
-            className="input"
+    <SearchBox>
+      <SearchForm onSubmit={handleOnSubmit}>
+          <SearchInput
             type="text"
             name="query"
             autoComplete="off"
             autoFocus
-            placeholder="Search..."
+            // placeholder="Search..."
           />
-        </label>
-        <button className="btnSubmit">Search</button>
-      </form>
+          <Placeholder>Search movie by name</Placeholder>
+        <SearchButton>Search</SearchButton>
+      </SearchForm>
       {loading && <Loader />}
       {movies.length > 0 && <HomeList movies={movies} />}
       {error && <Error />}
@@ -76,7 +74,7 @@ const Movies = () => {
         pauseOnHover
         theme="colored"
       />
-    </>
+    </SearchBox>
   );
 };
 
